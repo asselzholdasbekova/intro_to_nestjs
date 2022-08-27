@@ -1,19 +1,35 @@
-version: '3.8'
-services:
-  database:
-    image: postgres:14.1-alpine
-    env_file:
-      - .env
-    ports:
-      - '35000:5432'
+version: '3.0'
 
-  api:
-    build: 
-      dockerfile: DockerFile
+services:
+  main:
+    container_name: main
+    build:
       context: .
     env_file:
       - .env
+    volumes:
+      - .:/app
+      - /app/node_modules
     ports:
-      - '3030:3000'
+      - 3000:3000
+      - 9229:9229
+    command: npm run start:dev
     depends_on:
-      - database
+      - postgres
+    restart: always
+
+  postgres:
+    container_name: postgres
+    image: postgres:12
+    env_file:
+      - .env
+    environment:
+      PG_DATA: /var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  pgdata:
