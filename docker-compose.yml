@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  database:
+    image: postgres:14.1-alpine
+    env_file:
+      - .env
+    ports:
+      - '35000:5432'
+
+  api:
+    build: 
+      dockerfile: DockerFile
+      context: .
+    env_file:
+      - .env
+    ports:
+      - '3030:3000'
+    depends_on:
+      - database

@@ -16,7 +16,7 @@ import { AnimeModule } from './module/anime.module';
       database: process.env.POSTGRES_DATABASE,
       entities: [Anime],
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: false,
     }),
     AnimeModule
   ],
